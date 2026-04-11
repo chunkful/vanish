@@ -1,4 +1,4 @@
-![](assets/banner.png "Banner")
+![](https://raw.githubusercontent.com/chunkful/vanish/main/assets/banner.png "Banner")
 # Vanish
 
 A well-made vanish plugin for modern Paper servers.

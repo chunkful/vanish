@@ -3,11 +3,12 @@ import xyz.jpenilla.runpaper.task.RunServer
 
 plugins {
     id("java")
-    alias(libs.plugins.shadow)
-    alias(libs.plugins.paperweightUserdev)
-    alias(libs.plugins.runTask.paper)
-    alias(libs.plugins.resourceFactory.paperConvention)
     alias(libs.plugins.gremlin)
+    alias(libs.plugins.minotaur)
+    alias(libs.plugins.paperweightUserdev)
+    alias(libs.plugins.resourceFactory.paperConvention)
+    alias(libs.plugins.runTask.paper)
+    alias(libs.plugins.shadow)
 }
 
 group = "net.chunkful"
@@ -122,4 +123,29 @@ configurations.testImplementation {
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+}
+
+modrinth {
+    token = System.getenv("MODRINTH_TOKEN")
+    debugMode = System.getenv("CI") != "true"
+    projectId = "chunkful-vanish"
+    versionType = "release"
+    uploadFile.set(tasks.jar)
+    gameVersions = listOf("1.21.11")
+    loaders = listOf("paper", "folia")
+    dependencies {
+        required.project("placeholderapi")
+        optional.project("openinv")
+        optional.project("discordsrv")
+        optional.project("luckperms")
+    }
+    syncBodyFrom = file("README.md").readText()
+}
+
+tasks.modrinth {
+    dependsOn(tasks.modrinthSyncBody)
+}
+
+tasks.register("publish") {
+    dependsOn(tasks.build, tasks.modrinth)
 }
