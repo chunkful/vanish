@@ -1,34 +1,24 @@
+![](https://raw.githubusercontent.com/chunkful/vanish/main/assets/banner.png "Banner")
 # Vanish
 
 A well-made vanish plugin for modern Paper servers.
 
-## Requirements
-- Vanish command
-  - Toggle own vanish [/]
-  - Toggle others vanish [x]
-  - Set vanish level [/]
-  - Reset vanish level [/]
-- Vanish levels [/]
-- Protection
-  - Block placement [/]
-  - Block breaking [/]
-  - Entity damage [/]
-  - Player interaction [/]
-  - Inventory locking [x]
-  - No item dropping [/]
-- Effects
-  - Player hiding [/]
-  - 'vanished' Metadata [/]
-  - Join/quit messages [/]
-  - No mob spawning [/]
-  - Execute hooks [/]
-  - Status actionbar [/]
-  - No mob targeting [/]
-  - No item pickup [/]
-  - No damage [/]
-  - No sculk trigger [/]
-  - Ghost mode [x]
-- Integrations
-  - OpenInv SilentChest [/]
-  - PAPI Expansion [/]
-- Vanish hostname [/]
+## Features
+- Multiple vanish levels with overrides
+- Permission-based interaction blocking while vanished
+- Customizable fake/join messages
+- Extensive gameplay hooks for full invisibility
+- Configurable execution hooks for custom actions
+- Integration with most plugins through metadata
+- Support for OpenInv's silent chest feature
+- Full support for PlaceholderAPI with custom expansion
+- A configurable vanish hostname
+- Full MiniMessage support
+
+## Documentation
+View the [Wiki](https://github.com/chunkful/vanish/wiki) for user documentation.
+
+<!-- modrinth_exclude.start -->
+## Contributing
+View the [Contributing Guide](CONTRIBUTING.md) for information on how to contribute.
+<!-- modrinth_exclude.end -->
