@@ -18,5 +18,7 @@ A well-made vanish plugin for modern Paper servers.
 ## Documentation
 View the [Wiki](https://github.com/chunkful/vanish/wiki) for user documentation.
 
+<!-- modrinth_exclude.start -->
 ## Contributing
 View the [Contributing Guide](CONTRIBUTING.md) for information on how to contribute.
+<!-- modrinth_exclude.end -->
