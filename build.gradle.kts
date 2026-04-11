@@ -3,11 +3,11 @@ import xyz.jpenilla.runpaper.task.RunServer
 
 plugins {
     id("java")
-    id("com.gradleup.shadow") version "9.2.2"
-    id("io.papermc.paperweight.userdev") version "2.0.0-beta.18"
-    id("xyz.jpenilla.run-paper") version "3.0.0"
-    id("xyz.jpenilla.resource-factory-paper-convention") version "1.3.1"
-    id("xyz.jpenilla.gremlin-gradle") version "0.0.9"
+    alias(libs.plugins.shadow)
+    alias(libs.plugins.paperweightUserdev)
+    alias(libs.plugins.runTask.paper)
+    alias(libs.plugins.resourceFactory.paperConvention)
+    alias(libs.plugins.gremlin)
 }
 
 group = "net.chunkful"
@@ -21,7 +21,7 @@ repositories {
     }
     maven {
         name = "helpchat"
-        url = uri("https://repo.helpch.at/snapshots")
+        url = uri("https://repo.helpch.at/releases")
     }
     maven {
         name = "scarsz"
@@ -35,14 +35,16 @@ repositories {
 }
 
 dependencies {
-    paperweight.paperDevBundle("1.21.11-R0.1-SNAPSHOT")
-    runtimeDownload("space.arim.dazzleconf:dazzleconf-core:2.0.0-M1")
-    runtimeDownload("space.arim.dazzleconf:dazzleconf-yaml:2.0.0-M1")
-    runtimeDownload("space.arim.injector:injector:1.1.0-RC2")
-    runtimeDownload("jakarta.inject:jakarta.inject-api:2.0.1")
-    compileOnly("me.clip:placeholderapi:2.11.7-DEV-212")
-    compileOnly("com.github.Jikoo:OpenInv:5.3.0")
-    compileOnly("com.discordsrv:discordsrv:1.28.0")
+    paperweight.paperDevBundle(libs.versions.paper)
+
+    runtimeDownload(libs.dazzleconf.core)
+    runtimeDownload(libs.dazzleconf.yaml)
+    runtimeDownload(libs.jakarta.inject)
+    runtimeDownload(libs.solidinjector)
+
+    compileOnly(libs.discordsrv)
+    compileOnly(libs.openinv)
+    compileOnly(libs.placeholderapi)
 }
 
 paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION
@@ -87,6 +89,16 @@ paperPluginYaml {
 runPaper {
     folia {
         registerTask()
+    }
+}
+
+tasks {
+    runPaper {
+        downloadPluginsSpec {
+            modrinth("luckperms", "v5.5.17-bukkit")
+            modrinth("openinv", "5.3.0")
+            modrinth("placeholderapi", "2.12.2")
+        }
     }
 }
 
