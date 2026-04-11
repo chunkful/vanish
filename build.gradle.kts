@@ -130,7 +130,7 @@ modrinth {
     debugMode = System.getenv("CI") != "true"
     projectId = "chunkful-vanish"
     versionType = "release"
-    uploadFile.set(tasks.jar)
+    uploadFile.set(tasks.shadowJar)
     gameVersions = listOf("1.21.11")
     loaders = listOf("paper", "folia")
     dependencies {
