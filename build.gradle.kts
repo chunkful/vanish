@@ -10,7 +10,7 @@ plugins {
     id("xyz.jpenilla.gremlin-gradle") version "0.0.9"
 }
 
-group = "de.mcmdev"
+group = "net.chunkful"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -48,7 +48,7 @@ dependencies {
 paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION
 
 paperPluginYaml {
-    main = "de.mcmdev.vanish.VanishPlugin"
+    main = "net.chunkful.vanish.VanishPlugin"
     loader = "xyz.jpenilla.gremlin.runtime.platformsupport.DefaultsPaperPluginLoader"
     apiVersion = "1.21"
     foliaSupported = true
