@@ -157,6 +157,11 @@ modrinth {
         optional.project("luckperms")
     }
     syncBodyFrom = file("README.md").readText()
+
+    val tagMessage: String? = System.getenv("CI_COMMIT_TAG_MESSAGE")
+    tagMessage?.let {
+        changelog.set(it)
+    }
 }
 
 tasks.modrinth {
