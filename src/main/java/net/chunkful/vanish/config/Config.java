@@ -85,11 +85,11 @@ public interface Config {
         }
 
         default Message fakeJoin() {
-            return Message.of("<yellow>%player_name% joined the game.</yellow>");
+            return Message.of("<yellow>%player_name% joined the game</yellow>");
         }
 
         default Message fakeQuit() {
-            return Message.of("<yellow>%player_name% left the game.</yellow>");
+            return Message.of("<yellow>%player_name% left the game</yellow>");
         }
 
         default Message notifyJoin() {
