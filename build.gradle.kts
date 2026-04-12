@@ -70,16 +70,36 @@ paperPluginYaml {
     }
 
     permissions {
-        register("vanish.command")
-        register("vanish.command.setlevel")
-        register("vanish.see.<level>")
-        register("vanish.use.<level>")
-        register("vanish.protection.block_place")
-        register("vanish.protection.block_break")
-        register("vanish.protection.entity_damage")
-        register("vanish.protection.player_interact")
-        register("vanish.protection.player_drop")
-        register("vanish.hostname")
+        register("vanish.command") {
+            description = "Allows you to use Vanish commands"
+        }
+        register("vanish.command.setlevel") {
+            description = "Allows you to override your vanish level"
+        }
+        register("vanish.see.<level>") {
+            description = "Allows you to see players with a vanish level of <level>"
+        }
+        register("vanish.use.<level>") {
+            description = "Allows you to use vanish with a vanish level of <level>"
+        }
+        register("vanish.protection.block_place") {
+            description = "Allows you to place blocks while vanished"
+        }
+        register("vanish.protection.block_break") {
+            description = "Allows you to break blocks while vanished"
+        }
+        register("vanish.protection.entity_damage") {
+            description = "Allows you to damage entities while vanished"
+        }
+        register("vanish.protection.player_interact") {
+            description = "Allows you to interact with players while vanished"
+        }
+        register("vanish.protection.player_drop") {
+            description = "Allows you to drop items while vanished"
+        }
+        register("vanish.hostname") {
+            description = "Allows you to connect to the server using the vanish hostname"
+        }
     }
 }
 
