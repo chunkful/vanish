@@ -5,7 +5,6 @@ plugins {
     id("java")
     alias(libs.plugins.gremlin)
     alias(libs.plugins.minotaur)
-    alias(libs.plugins.paperweightUserdev)
     alias(libs.plugins.resourceFactory.paperConvention)
     alias(libs.plugins.runTask.paper)
     alias(libs.plugins.shadow)
@@ -35,7 +34,7 @@ repositories {
 }
 
 dependencies {
-    paperweight.paperDevBundle(libs.versions.paper)
+    compileOnly(libs.paper)
 
     runtimeDownload(libs.dazzleconf.core)
     runtimeDownload(libs.dazzleconf.yaml)
@@ -46,8 +45,6 @@ dependencies {
     compileOnly(libs.openinv)
     compileOnly(libs.placeholderapi)
 }
-
-paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION
 
 paperPluginYaml {
     main = "net.chunkful.vanish.VanishPlugin"

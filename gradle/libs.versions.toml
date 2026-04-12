@@ -2,7 +2,6 @@
 # Plugin versions
 gremlin = "0.0.9"
 minotaur = "2.9.0"
-paperweightUserdev = "2.0.0-beta.19"
 resourceFactory = "1.3.1"
 runTask = "3.0.2"
 shadow = "9.2.2"
@@ -19,7 +18,6 @@ solidinjector = "1.1.0-RC2"
 [plugins]
 gremlin = { id = "xyz.jpenilla.gremlin-gradle", version.ref = "gremlin" }
 minotaur = { id = "com.modrinth.minotaur", version.ref = "minotaur" }
-paperweightUserdev = { id = "io.papermc.paperweight.userdev", version.ref = "paperweightUserdev" }
 resourceFactory-paperConvention = { id = "xyz.jpenilla.resource-factory-paper-convention", version.ref = "resourceFactory" }
 runTask-paper = { id = "xyz.jpenilla.run-paper", version.ref = "runTask" }
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
@@ -30,5 +28,6 @@ dazzleconf-yaml = { group = "space.arim.dazzleconf", name = "dazzleconf-yaml", v
 discordsrv = { group = "com.discordsrv", name = "discordsrv", version.ref = "discordsrv" }
 jakarta-inject = { group = "jakarta.inject", name = "jakarta.inject-api", version.ref = "jakarta-inject" }
 openinv = { group = "com.github.Jikoo", name = "OpenInv", version.ref = "openinv" }
+paper = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }
 placeholderapi = { group = "me.clip", name = "placeholderapi", version.ref = "placeholderapi" }
 solidinjector = { group = "space.arim.injector", name = "injector", version.ref = "solidinjector" }
