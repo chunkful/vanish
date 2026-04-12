@@ -110,6 +110,9 @@ runPaper {
 }
 
 tasks {
+    runServer {
+        minecraftVersion("1.21.11")
+    }
     runPaper {
         downloadPluginsSpec {
             modrinth("luckperms", "v5.5.17-bukkit")
@@ -139,7 +142,11 @@ configurations.testImplementation {
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(25))
+}
+
+tasks.compileJava {
+    options.release = 21
 }
 
 modrinth {
@@ -148,7 +155,7 @@ modrinth {
     projectId = "chunkful-vanish"
     versionType = "release"
     uploadFile.set(tasks.shadowJar)
-    gameVersions = listOf("1.21.11")
+    gameVersions = listOf("1.21.11", "26.1.2")
     loaders = listOf("paper", "folia")
     dependencies {
         required.project("placeholderapi")
