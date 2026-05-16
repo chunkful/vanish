@@ -18,11 +18,11 @@
 
 package net.chunkful.vanish.listeners;
 
+import jakarta.inject.Inject;
 import net.chunkful.vanish.api.VanishApi;
 import net.chunkful.vanish.config.Config;
 import net.chunkful.vanish.events.VanishEnterEvent;
 import net.chunkful.vanish.events.VanishExitEvent;
-import jakarta.inject.Inject;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,13 +30,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public final class FakeMessageListener implements Listener {
+public final class StatusMessageListener implements Listener {
 
     private final VanishApi vanishApi;
     private final Config config;
 
     @Inject
-    public FakeMessageListener(final VanishApi vanishApi, final Config config) {
+    public StatusMessageListener(final VanishApi vanishApi, final Config config) {
         this.vanishApi = vanishApi;
         this.config = config;
     }
@@ -68,8 +68,11 @@ public final class FakeMessageListener implements Listener {
         final Player target = event.getPlayer();
 
         for (final Player viewer : Bukkit.getOnlinePlayers()) {
+            if (viewer.equals(target)) continue;
             if (!vanishApi.canSee(viewer, target)) {
                 config.messages().fakeQuit().send(viewer, target);
+            } else {
+                config.messages().notifyEnter().send(viewer, target);
             }
         }
     }
@@ -79,8 +82,11 @@ public final class FakeMessageListener implements Listener {
         final Player target = event.getPlayer();
 
         for (final Player viewer : Bukkit.getOnlinePlayers()) {
+            if (viewer.equals(target)) continue;
             if (!vanishApi.canSee(viewer, target)) {
                 config.messages().fakeJoin().send(viewer, target);
+            } else {
+                config.messages().notifyExit().send(viewer, target);
             }
         }
     }

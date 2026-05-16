@@ -24,7 +24,7 @@ import net.chunkful.vanish.config.ConfigModule;
 import net.chunkful.vanish.integration.DiscordSrvIntegration;
 import net.chunkful.vanish.integration.OpenInvIntegration;
 import net.chunkful.vanish.integration.VanishExpansion;
-import net.chunkful.vanish.listeners.FakeMessageListener;
+import net.chunkful.vanish.listeners.StatusMessageListener;
 import net.chunkful.vanish.listeners.HookListener;
 import net.chunkful.vanish.listeners.JoinQuitDispatcherListener;
 import net.chunkful.vanish.listeners.VanishOnJoinListener;
@@ -64,7 +64,7 @@ public class VanishPlugin extends JavaPlugin {
         registerListener(JoinQuitDispatcherListener.class);
         registerListener(MessageBlockingEffectListener.class);
         registerListener(HookListener.class);
-        registerListener(FakeMessageListener.class);
+        registerListener(StatusMessageListener.class);
         registerListener(VanishOnJoinListener.class);
 
         registerListener(BlockBreakProtectionListener.class);

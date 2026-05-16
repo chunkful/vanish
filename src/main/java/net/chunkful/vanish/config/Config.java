@@ -104,6 +104,14 @@ public interface Config {
             return Message.of("<aqua>%player_name% left the game while invisible.</aqua>");
         }
 
+        default Message notifyEnter() {
+            return Message.of("<aqua>%player_name% is now invisible.</aqua>");
+        }
+
+        default Message notifyExit() {
+            return Message.of("<aqua>%player_name% is no longer invisible.</aqua>");
+        }
+
     }
 
 }
