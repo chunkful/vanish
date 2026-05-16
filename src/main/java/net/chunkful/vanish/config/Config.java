@@ -32,6 +32,10 @@ public interface Config {
         return 100;
     }
 
+    default boolean vanishOnJoin() {
+        return false;
+    }
+
     default CommandHook vanishHooks() {
         return CommandHook.empty();
     }

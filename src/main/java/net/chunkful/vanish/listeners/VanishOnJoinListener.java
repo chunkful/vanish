@@ -30,14 +30,16 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import java.net.InetSocketAddress;
 import java.util.regex.Pattern;
 
-public final class VanishHostListener implements Listener {
+public final class VanishOnJoinListener implements Listener {
 
     private final Storage storage;
+    private final Config config;
     private final Pattern pattern;
 
     @Inject
-    public VanishHostListener(final Storage storage, final Config config) {
+    public VanishOnJoinListener(final Storage storage, final Config config) {
         this.storage = storage;
+        this.config = config;
 
         this.pattern = Pattern.compile(config.vanishHostRegex());
     }
@@ -46,12 +48,15 @@ public final class VanishHostListener implements Listener {
     private void onJoin(final PlayerJoinEvent event) {
         final Player player = event.getPlayer();
 
+        if (player.hasPermission("vanish.on-join") && config.vanishOnJoin()) {
+            storage.setVanished(player.getUniqueId(), true);
+            return;
+        }
+
         final InetSocketAddress virtualHost = player.getVirtualHost();
         if (virtualHost == null) return;
 
-        if (!player.hasPermission("vanish.hostname")) return;
-
-        if (pattern.matcher(virtualHost.getHostString()).matches()) {
+        if (player.hasPermission("vanish.hostname") && pattern.matcher(virtualHost.getHostString()).matches()) {
             storage.setVanished(player.getUniqueId(), true);
         }
     }

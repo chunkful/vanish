@@ -27,9 +27,7 @@ import net.chunkful.vanish.integration.VanishExpansion;
 import net.chunkful.vanish.listeners.FakeMessageListener;
 import net.chunkful.vanish.listeners.HookListener;
 import net.chunkful.vanish.listeners.JoinQuitDispatcherListener;
-import net.chunkful.vanish.listeners.VanishHostListener;
-import net.chunkful.vanish.listeners.effects.*;
-import net.chunkful.vanish.listeners.protection.*;
+import net.chunkful.vanish.listeners.VanishOnJoinListener;
 import net.chunkful.vanish.listeners.effects.*;
 import net.chunkful.vanish.listeners.protection.*;
 import net.chunkful.vanish.storage.StorageModule;
@@ -67,7 +65,7 @@ public class VanishPlugin extends JavaPlugin {
         registerListener(MessageBlockingEffectListener.class);
         registerListener(HookListener.class);
         registerListener(FakeMessageListener.class);
-        registerListener(VanishHostListener.class);
+        registerListener(VanishOnJoinListener.class);
 
         registerListener(BlockBreakProtectionListener.class);
         registerListener(BlockPlaceProtectionListener.class);
