@@ -23,7 +23,7 @@ import net.chunkful.vanish.events.VanishClearEffectsEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-public final class SleepStatusEffectListener implements Listener {
+public final class SleepIgnoredEffectListener implements Listener {
 
     @EventHandler
     private void onVanish(final VanishApplyEffectsEvent event) {
