@@ -45,16 +45,23 @@ public final class Message {
     }
 
     public void send(final Player receiver, final TagResolver... resolvers) {
+        if (messageTemplate.isEmpty()) return;
         final String resolvedMessage = PlaceholderAPI.setPlaceholders(receiver, messageTemplate);
         receiver.sendRichMessage(resolvedMessage, resolvers);
     }
 
     public void send(final Player receiver, final Player subject, final TagResolver... resolvers) {
-        final String resolvedMessage = PlaceholderAPI.setPlaceholders(subject, messageTemplate);
+        if (messageTemplate.isEmpty()) return;
+        final String resolvedMessage = PlaceholderAPI.setRelationalPlaceholders(
+                receiver,
+                subject,
+                PlaceholderAPI.setPlaceholders(subject, messageTemplate)
+        );
         receiver.sendRichMessage(resolvedMessage, resolvers);
     }
 
     public void sendActionbar(final Player receiver, final TagResolver... resolvers) {
+        if (messageTemplate.isEmpty()) return;
         final String resolvedMessage = PlaceholderAPI.setPlaceholders(receiver, messageTemplate);
         receiver.sendActionBar(MiniMessage.miniMessage().deserialize(resolvedMessage, resolvers));
     }
