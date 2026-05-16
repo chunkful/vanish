@@ -35,6 +35,8 @@ import java.util.List;
 
 public final class CommandHook {
 
+    private static final String CONSOLE_PREFIX = "console:";
+
     private final List<String> commandTemplates;
 
     private CommandHook(final List<String> commandTemplates) {
@@ -51,12 +53,21 @@ public final class CommandHook {
 
     public void execute(final Player player) {
         final List<String> resolvedCommands = PlaceholderAPI.setPlaceholders(player, commandTemplates);
-        resolvedCommands.forEach(resolvedCommand -> Bukkit.dispatchCommand(player, resolvedCommand));
+        resolvedCommands.forEach(resolvedCommand -> dispatch(player, resolvedCommand));
     }
 
     public void execute(final Player viewer, final Player target) {
         final List<String> resolvedCommands = PlaceholderAPI.setPlaceholders(target, PlaceholderAPI.setRelationalPlaceholders(viewer, target, commandTemplates));
-        resolvedCommands.forEach(resolvedCommand -> Bukkit.dispatchCommand(viewer, resolvedCommand));
+        resolvedCommands.forEach(resolvedCommand -> dispatch(viewer, resolvedCommand));
+    }
+
+    private void dispatch(final Player player, String resolvedCommand) {
+        if(resolvedCommand.startsWith(CONSOLE_PREFIX)) {
+            resolvedCommand = resolvedCommand.substring(CONSOLE_PREFIX.length());
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), resolvedCommand);
+        } else {
+            Bukkit.dispatchCommand(player, resolvedCommand);
+        }
     }
 
     static final class Serdes implements SerializeDeserialize<CommandHook> {
