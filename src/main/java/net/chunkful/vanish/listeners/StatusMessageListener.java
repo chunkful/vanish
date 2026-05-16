@@ -23,6 +23,7 @@ import net.chunkful.vanish.api.VanishApi;
 import net.chunkful.vanish.config.Config;
 import net.chunkful.vanish.events.VanishEnterEvent;
 import net.chunkful.vanish.events.VanishExitEvent;
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,11 +35,13 @@ public final class StatusMessageListener implements Listener {
 
     private final VanishApi vanishApi;
     private final Config config;
+    private final ComponentLogger componentLogger;
 
     @Inject
-    public StatusMessageListener(final VanishApi vanishApi, final Config config) {
+    public StatusMessageListener(final VanishApi vanishApi, final Config config, final ComponentLogger componentLogger) {
         this.vanishApi = vanishApi;
         this.config = config;
+        this.componentLogger = componentLogger;
     }
 
     @EventHandler
@@ -75,6 +78,8 @@ public final class StatusMessageListener implements Listener {
                 config.messages().notifyEnter().send(viewer, target);
             }
         }
+
+        config.messages().notifyJoin().log(componentLogger, target);
     }
 
     @EventHandler
@@ -89,6 +94,8 @@ public final class StatusMessageListener implements Listener {
                 config.messages().notifyExit().send(viewer, target);
             }
         }
+
+        config.messages().notifyExit().log(componentLogger, target);
     }
 
 }

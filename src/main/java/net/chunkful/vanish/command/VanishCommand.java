@@ -20,7 +20,10 @@ package net.chunkful.vanish.command;
 
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.tree.LiteralCommandNode;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
+import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSelectorArgumentResolver;
 import net.chunkful.vanish.VanishPlugin;
 import net.chunkful.vanish.api.VanishApi;
 import net.chunkful.vanish.config.Config;
@@ -29,6 +32,7 @@ import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import jakarta.inject.Inject;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.entity.Player;
 
 public class VanishCommand {
@@ -60,6 +64,20 @@ public class VanishCommand {
                                         Commands.argument("level", IntegerArgumentType.integer(0, config.maximumHidingLevel()))
                                                 .executes(this::runSetlevelLevel)
                                 )
+                                .then(
+                                        Commands.argument("player", ArgumentTypes.player())
+                                                .requires(commandSourceStack -> commandSourceStack.getSender().hasPermission("vanish.command.setlevel.others"))
+                                                .executes(this::runSetlevelOthers)
+                                                .then(
+                                                        Commands.argument("level", IntegerArgumentType.integer(0, config.maximumHidingLevel()))
+                                                                .executes(this::runSetlevelLevelOthers)
+                                                )
+                                )
+                )
+                .then(
+                        Commands.argument("player", ArgumentTypes.player())
+                                .requires(commandSourceStack -> commandSourceStack.getSender().hasPermission("vanish.command.others"))
+                                .executes(this::runOthers)
                 )
                 .build();
     }
@@ -116,6 +134,65 @@ public class VanishCommand {
 
         vanishApi.setLevelOverride(player.getUniqueId(), level);
         config.messages().levelOverrideSet().send(player, Placeholder.parsed("level", String.valueOf(level)));
+
+        return 0;
+    }
+
+    private int runOthers(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        final Player player = context.getArgument("player", PlayerSelectorArgumentResolver.class)
+                .resolve(context.getSource())
+                .getFirst();
+
+        if (vanishApi.isVanished(player)) {
+            vanishApi.unvanish(player);
+            config.messages().toggleOff().send(player);
+        } else {
+            vanishApi.vanish(player);
+            config.messages().toggleOn().send(player);
+        }
+
+        return 0;
+    }
+
+    private int runSetlevelOthers(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        final Player player = context.getArgument("player", PlayerSelectorArgumentResolver.class)
+                .resolve(context.getSource())
+                .getFirst();
+
+        if (!vanishApi.supportsLevels()) {
+            player.sendRichMessage("<red>Vanish levels are not available in the current configuration.");
+            return 2;
+        }
+
+        final boolean hasOverride = vanishApi.getLevelOverride(player.getUniqueId()) != null;
+        if (!hasOverride) {
+            config.messages().levelOverrideNotSetOthers().sendOther(context.getSource().getSender(), player);
+            return 3;
+        }
+
+        vanishApi.setLevelOverride(player.getUniqueId(), null);
+        config.messages().levelOverrideCleared().send(player);
+        config.messages().levelOverrideClearedOthers().sendOther(context.getSource().getSender(), player);
+
+        return 0;
+    }
+
+    private int runSetlevelLevelOthers(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        final Player player = context.getArgument("player", PlayerSelectorArgumentResolver.class)
+                .resolve(context.getSource())
+                .getFirst();
+
+        final Integer level = context.getArgument("level", Integer.class);
+
+        if (!vanishApi.supportsLevels()) {
+            player.sendRichMessage("<red>Vanish levels are not available in the current configuration.");
+            return 2;
+        }
+
+        vanishApi.setLevelOverride(player.getUniqueId(), level);
+        TagResolver levelPlaceholder = Placeholder.parsed("level", String.valueOf(level));
+        config.messages().levelOverrideSet().send(player, levelPlaceholder);
+        config.messages().levelOverrideSetOthers().sendOther(context.getSource().getSender(), player, levelPlaceholder);
 
         return 0;
     }

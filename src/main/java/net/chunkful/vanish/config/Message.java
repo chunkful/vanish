@@ -19,6 +19,8 @@
 package net.chunkful.vanish.config;
 
 import me.clip.placeholderapi.PlaceholderAPI;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.entity.Player;
@@ -64,6 +66,18 @@ public final class Message {
         if (messageTemplate.isEmpty()) return;
         final String resolvedMessage = PlaceholderAPI.setPlaceholders(receiver, messageTemplate);
         receiver.sendActionBar(MiniMessage.miniMessage().deserialize(resolvedMessage, resolvers));
+    }
+
+    public void sendOther(final Audience receiver, final Player subject, final TagResolver... resolvers) {
+        if (messageTemplate.isEmpty()) return;
+        final String resolvedMessage = PlaceholderAPI.setPlaceholders(subject, messageTemplate);
+        receiver.sendMessage(MiniMessage.miniMessage().deserialize(resolvedMessage, resolvers));
+    }
+
+    public void log(final ComponentLogger componentLogger, final Player subject, final TagResolver... resolvers) {
+        if (messageTemplate.isEmpty()) return;
+        final String resolvedMessage = PlaceholderAPI.setPlaceholders(subject, messageTemplate);
+        componentLogger.info(MiniMessage.miniMessage().deserialize(resolvedMessage, resolvers));
     }
 
     static final class Serdes implements SerializeDeserialize<Message> {

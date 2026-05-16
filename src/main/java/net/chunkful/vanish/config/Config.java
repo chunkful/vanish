@@ -80,12 +80,24 @@ public interface Config {
             return Message.of("<aqua>Your level override has been set to <yellow><level></yellow>.");
         }
 
+        default Message levelOverrideSetOthers() {
+            return Message.of("<aqua>%player_name%'s level override has been set to <yellow><level></yellow>.");
+        }
+
         default Message levelOverrideCleared() {
             return Message.of("<aqua>Your level override has been cleared.");
         }
 
+        default Message levelOverrideClearedOthers() {
+            return Message.of("<aqua>%player_name%'s level override has been cleared.");
+        }
+
         default Message levelOverrideNotSet() {
             return Message.of("<red>You currently have no level override set.");
+        }
+
+        default Message levelOverrideNotSetOthers() {
+            return Message.of("<red>%player_name% currently has no level override set.");
         }
 
         default Message fakeJoin() {

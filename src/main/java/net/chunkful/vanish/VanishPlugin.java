@@ -32,6 +32,7 @@ import net.chunkful.vanish.listeners.effects.*;
 import net.chunkful.vanish.listeners.protection.*;
 import net.chunkful.vanish.storage.StorageModule;
 import net.chunkful.vanish.visibility.VisibilityCalculatorModule;
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -57,6 +58,7 @@ public class VanishPlugin extends JavaPlugin {
         this.injector = new InjectorBuilder()
                 .specification(SpecificationSupport.JAKARTA)
                 .bindInstance(VanishPlugin.class, this)
+                .bindInstance(ComponentLogger.class, getComponentLogger())
                 .addBindModules(new ConfigModule(), new StorageModule(), new VisibilityCalculatorModule(), new ApiModule())
                 .build();
 
