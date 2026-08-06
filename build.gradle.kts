@@ -155,7 +155,7 @@ modrinth {
     projectId = "chunkful-vanish"
     versionType = "release"
     uploadFile.set(tasks.shadowJar)
-    gameVersions = listOf("1.21.11", "26.1.2")
+    gameVersions = listOf("1.21.11", "26.1.2", "26.2")
     loaders = listOf("paper", "folia")
     dependencies {
         required.project("placeholderapi")
