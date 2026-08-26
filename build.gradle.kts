@@ -5,6 +5,7 @@ plugins {
     id("java")
     alias(libs.plugins.gremlin)
     alias(libs.plugins.minotaur)
+    alias(libs.plugins.hangar)
     alias(libs.plugins.resourceFactory.paperConvention)
     alias(libs.plugins.runTask.paper)
     alias(libs.plugins.shadow)
@@ -149,13 +150,15 @@ tasks.compileJava {
     options.release = 21
 }
 
+val gameVersions = listOf("1.21.11", "26.1.2", "26.2")
+
 modrinth {
     token = System.getenv("MODRINTH_TOKEN")
     debugMode = System.getenv("CI") != "true"
     projectId = "chunkful-vanish"
     versionType = "release"
     uploadFile.set(tasks.shadowJar)
-    gameVersions = listOf("1.21.11", "26.1.2", "26.2")
+    gameVersions = gameVersions
     loaders = listOf("paper", "folia")
     dependencies {
         required.project("placeholderapi")
@@ -175,6 +178,46 @@ tasks.modrinth {
     dependsOn(tasks.modrinthSyncBody)
 }
 
+hangarPublish {
+    publications.register("plugin") {
+        version = project.version.toString()
+        id = "chunkful-vanish"
+        channel = "release"
+
+        apiKey = System.getenv("HANGAR_TOKEN")
+
+        platforms {
+            listOf("paper", "folia").forEach {
+                register(it) {
+                    jar = tasks.shadowJar.get().archiveFile
+                    platformVersions = gameVersions
+                    dependencies {
+                        hangar("PlaceholderAPI")
+                        hangar("OpenInv")
+                        url("DiscordSRV", "https://modrinth.com/plugin/discordsrv")
+                        url("LuckPerms", "https://luckperms.net")
+                    }
+                }
+            }
+        }
+
+        pages {
+            resourcePage(provider {
+                file("README.md").readText()
+            })
+        }
+
+        val tagMessage: String? = System.getenv("CI_COMMIT_TAG_MESSAGE")
+        tagMessage?.let {
+            changelog.set(it)
+        }
+    }
+}
+
+tasks.named("publishPluginPublicationToHangar") {
+    dependsOn(tasks.named("syncPluginPublicationMainResourcePagePageToHangar"))
+}
+
 tasks.register("publish") {
-    dependsOn(tasks.build, tasks.modrinth)
+    dependsOn(tasks.build, tasks.modrinth, tasks.publishAllPublicationsToHangar)
 }
