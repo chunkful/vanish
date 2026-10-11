@@ -150,7 +150,7 @@ tasks.compileJava {
     options.release = 21
 }
 
-val gameVersions = listOf("1.21.11", "26.1.2", "26.2", "26.3")
+val supportedVersions = listOf("1.21.11", "26.1.2", "26.2", "26.3")
 
 modrinth {
     token = System.getenv("MODRINTH_TOKEN")
@@ -158,7 +158,7 @@ modrinth {
     projectId = "chunkful-vanish"
     versionType = "release"
     uploadFile.set(tasks.shadowJar)
-    gameVersions = gameVersions
+    gameVersions.set(supportedVersions)
     loaders = listOf("paper", "folia")
     dependencies {
         required.project("placeholderapi")
@@ -189,7 +189,7 @@ hangarPublish {
         platforms {
             paper {
                 jar = tasks.shadowJar.get().archiveFile
-                platformVersions = gameVersions
+                platformVersions = supportedVersions
                 dependencies {
                     hangar("PlaceholderAPI")
                     hangar("OpenInv")
