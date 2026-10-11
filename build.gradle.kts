@@ -150,7 +150,7 @@ tasks.compileJava {
     options.release = 21
 }
 
-val gameVersions = listOf("1.21.11", "26.1.2", "26.2")
+val gameVersions = listOf("1.21.11", "26.1.2", "26.2", "26.3")
 
 modrinth {
     token = System.getenv("MODRINTH_TOKEN")
@@ -182,21 +182,19 @@ hangarPublish {
     publications.register("plugin") {
         version = project.version.toString()
         id = "chunkful-vanish"
-        channel = "release"
+        channel = "Release"
 
         apiKey = System.getenv("HANGAR_TOKEN")
 
         platforms {
-            listOf("paper", "folia").forEach {
-                register(it) {
-                    jar = tasks.shadowJar.get().archiveFile
-                    platformVersions = gameVersions
-                    dependencies {
-                        hangar("PlaceholderAPI")
-                        hangar("OpenInv")
-                        url("DiscordSRV", "https://modrinth.com/plugin/discordsrv")
-                        url("LuckPerms", "https://luckperms.net")
-                    }
+            paper {
+                jar = tasks.shadowJar.get().archiveFile
+                platformVersions = gameVersions
+                dependencies {
+                    hangar("PlaceholderAPI")
+                    hangar("OpenInv")
+                    url("DiscordSRV", "https://modrinth.com/plugin/discordsrv")
+                    url("LuckPerms", "https://luckperms.net")
                 }
             }
         }
